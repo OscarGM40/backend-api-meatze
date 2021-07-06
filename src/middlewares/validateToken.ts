@@ -10,22 +10,19 @@ const isValidToken: RequestHandler = (req: Request | any, res, next) => {
      token = req.headers["authorization"]
       ? req.headers["authorization"].replace("Bearer ", "")
       : undefined;
-    
+        // console.log(token);
 
-    // console.log(token);
-
-   if (typeof token ==  "string") {
-      const decodedToken = jwt.verify(token, sistema.jwtSECRET);
-     // console.log(decodedToken);
-      req.user = decodedToken;
-
-    }
-  }else{
-    return res.status(403).json({message:"you must provide a token"})
-  }
+        if (typeof token ==  "string") {
+            const decodedToken = jwt.verify(token, sistema.jwtSECRET);
+          // console.log(decodedToken);
+            req.user = decodedToken;
+          }
+        }else{
+          return res.status(403).json({message:"you must provide a token"})
+        }
  
      next();
-  } catch (error) {
+    } catch (error) {
       // console.log("cualquier cosa")
       // console.log(req.headers["authorization"])
     

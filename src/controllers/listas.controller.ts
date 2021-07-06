@@ -57,6 +57,7 @@ export const deleteLista: RequestHandler = (req, res) => {
   });
 };
 
+// Inserta un Multimedia en la lista /
 export const insertarMultimedia: RequestHandler=(req,res)=>{
   const {multimedia} = req.body;
   

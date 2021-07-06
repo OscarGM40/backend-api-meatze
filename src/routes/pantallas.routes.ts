@@ -1,8 +1,8 @@
-import {Router} from 'express';
+import { Router } from 'express';
 const router = Router();
 import * as pantallasController from '../controllers/pantallas.controller';
 import isValidToken from '../middlewares/validateToken';
-import {isValidRole} from '../middlewares/validateRole';
+import { isValidRole } from '../middlewares/validateRole';
 /*Cuando se llama a un archivo se puede traer sin destructurar solo la que este por default */
 
 router.get('/pantallas', isValidToken, pantallasController.getPantallas);

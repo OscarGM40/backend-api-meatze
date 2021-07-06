@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import ModeloPantalla from "../models/Pantallas.models";
 import errors from '../services/errors';
 
-
+// devuelve todas
 export const getPantallas: RequestHandler = (req: Request | any, res) => {
   ModeloPantalla.find((err, doc) => {
     if (err) return res.status(500).json({ message: `Error: ${err}` });
@@ -13,7 +13,7 @@ export const getPantallas: RequestHandler = (req: Request | any, res) => {
     res.status(200).json(doc);
   });
 };
-
+//devuelve una
 export const getPantalla: RequestHandler = (req, res) => {
   ModeloPantalla.findById(req.params.id, (err:any, doc:any) => {
     if (err) return res.status(500).json({ message: `Error: ${err}` });
@@ -57,6 +57,7 @@ export const deletePantalla: RequestHandler = (req, res) => {
   });
 };
 
+//inserta una lista a una pantalla /api/pantallas/insertarlista/IDPantalla
 export const insertarLista: RequestHandler = (req, res) => {
   /**---------------------------------------------------------- */
   const { id } = req.params;
@@ -93,6 +94,7 @@ export const insertarLista: RequestHandler = (req, res) => {
   });
 };
 
+//elimina una lista de una pantalla.Recibe el id de la pantalla por query param y el id de la lista por el body content.Siempre será asi
 export const eliminarLista: RequestHandler = (req, res) => {
   const { id } = req.params;
   const { lista } = req.body;

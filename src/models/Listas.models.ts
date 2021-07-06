@@ -1,4 +1,4 @@
-import {Schema, model} from 'mongoose';
+import { Schema, model } from 'mongoose';
 
 const listaSchema = new Schema({
     _id: Schema.Types.ObjectId,

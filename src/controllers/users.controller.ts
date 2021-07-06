@@ -3,21 +3,24 @@ import { IUser } from "../models/Users.models";
 import mongoose from "mongoose";
 import User from "../models/Users.models";
 import jwt from 'jsonwebtoken';
-import {sistema} from '../config/config';
+import { sistema } from '../config/config';
 
-
+// GET a '/api/usuarios'
 export const getUsuarios = async (req: Request, res: Response) => {
   try {
     const users = await User.find({}, { password: 0 });
+
     if (users.length == 0) {
       return res.status(404).json({ message: `No users found` });
     }
+
     res.status(200).json(users);
+
   } catch (error) {
     res.status(500).json({ message: `Error: ${error}` });
   }
 };
-
+// GET a '/api/usuarios/MongoID
 export const getUsuario = async (req: Request, res: Response) => {
   try {
     const user = await User.findById(req.params.id, { password: 0 });
@@ -29,7 +32,7 @@ export const getUsuario = async (req: Request, res: Response) => {
     res.status(500).json({ message: `Error: ${error}` });
   }
 };
-//Registrarse
+// POST a '/api/usuarios/signup -> debe hacerlo un ADMIN con un TOKEN válido
 export const signup = async (req: Request, res: Response) => {
   try {
 
@@ -38,16 +41,19 @@ export const signup = async (req: Request, res: Response) => {
       _id: new mongoose.Types.ObjectId(),
     });
 
-    const { _id, userName, email, tipo, password } = user;
+   /*  const { _id, userName, email, tipo, password } = user;
     const user2 = { userName, email, tipo, _id, password };
-    delete user2.password;
-    res.status(201).json(user2);
+    delete user2.password; 
+    res.status(201).json(user2); */
+
+    res.status(201).json(user);
     
   } catch (error) {
     res.status(500).json({ message: `Error: ${error}` });
   }
 };
 
+// update por PUT a /api/usuarios/mondoID
 export const updateUsuario = async (req: Request, res: Response) => {
   try {
     const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
@@ -56,7 +62,7 @@ export const updateUsuario = async (req: Request, res: Response) => {
       projection: { password: 0 },
     });
     if (!updatedUser) {
-      return res.status(404).json({ message: `User not found` });
+      return res.status(404).json({ message: `User not found for update` });
     }
 
     res.status(200).json(updatedUser);
@@ -65,7 +71,7 @@ export const updateUsuario = async (req: Request, res: Response) => {
     res.status(500).json({ message: `Error: ${error.message}` });
   }
 };
-
+//delete por DELETE a /api/usuarios/mongoID
 export const deleteUsuario = async (req: Request, res: Response) => {
   try {
     const deletedUser = await User.findByIdAndDelete(req.params.id, {
@@ -80,14 +86,14 @@ export const deleteUsuario = async (req: Request, res: Response) => {
   }
 };
 
-// LogIn
+// Se busca el username único,se comprueba su password y se le envía un token de 1 día
 export const signin = async (req: Request, res: Response) => {
 
  try {
 
   const unauthorized = ()=>  res.status(403).json({ok: false,message: 'Unauthorizated.Password or user incorrects'});
 
-  const {userName,password} = req.body;
+  const { userName,password } = req.body;
 
   const userFound = await User.findOne({ userName});
          console.log(userFound)   
@@ -100,18 +106,18 @@ export const signin = async (req: Request, res: Response) => {
       const token = jwt.sign({id:userFound.id,email:userFound.email,tipo:userFound.tipo},sistema.jwtSECRET,{
         expiresIn:86400
       })
-      console.log(token);
+      // console.log(token);
       res.status(200).json({ok: true,token:token})
      }else{
-       unauthorized()
+       unauthorized(); //si no coinciden las passwords proporcionada y almacenada
      }
   }else{
-    unauthorized();
+    unauthorized(); //si no se encuentra un user en la BD con el userName proporcionado
   }
   
  } catch (error) {
   res.status(500).json({ message: `Error: ${error.message}` });
  }
 
-  }//fin signin
+}//fin signin
 

@@ -1,5 +1,5 @@
-import { RequestHandler, Response, Request } from "express";
-import Multimedia, { IMultimedia } from "../models/Multimedias.models";
+import { Response, Request } from "express";
+import Multimedia from "../models/Multimedias.models";
 import mongoose from "mongoose";
 import errors from '../services/errors'
 
@@ -15,6 +15,7 @@ export const getMultimedias = async (req: Request, res: Response) => {
    errors.response(res,500,`Error: ${error}`);
   }
 };
+
 export const getMultimedia = async (req: Request, res: Response) => {
   try {
     const doc = await Multimedia.findById(req.params.id);
@@ -28,6 +29,7 @@ export const getMultimedia = async (req: Request, res: Response) => {
     errors.response(res,500,`Error: ${error}`);
   }
 };
+
 export const createMultimedia = async (req: Request, res: Response) => {
   try {
     const doc = await new Multimedia({
@@ -40,6 +42,7 @@ export const createMultimedia = async (req: Request, res: Response) => {
     errors.response(res,500,`Error: ${error}`);
   }
 };
+
 export const updateMultimedia = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
@@ -54,6 +57,7 @@ export const updateMultimedia = async (req: Request, res: Response) => {
     errors.response(res,500,`Error: ${error}`);
   }
 };
+
 export const deleteMultimedia = async (req: Request, res: Response) => {
   try {
 
