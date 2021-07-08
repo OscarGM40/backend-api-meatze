@@ -1,11 +1,11 @@
-import { Response, Request } from "express";
+import { Response, Request, RequestHandler } from "express";
 import mongoose from "mongoose";
 import User from "../models/Users.models";
 import jwt from 'jsonwebtoken';
 import { sistema } from '../config/config';
 
 // GET a '/api/usuarios'
-export const getUsuarios = async (req: Request, res: Response) => {
+export const getUsuarios: RequestHandler = async (req: Request, res: Response) => {
   try {
     const users = await User.find({}, { password: 0 });
 
@@ -20,7 +20,7 @@ export const getUsuarios = async (req: Request, res: Response) => {
   }
 };
 // GET a '/api/usuarios/MongoID
-export const getUsuario = async (req: Request, res: Response) => {
+export const getUsuario: RequestHandler = async (req: Request, res: Response) => {
   try {
     const user = await User.findById(req.params.id, { password: 0 });
     if (!user) {
@@ -32,7 +32,7 @@ export const getUsuario = async (req: Request, res: Response) => {
   }
 };
 // POST a '/api/usuarios/signup -> debe hacerlo un ADMIN con un TOKEN válido
-export const signup = async (req: Request, res: Response) => {
+export const signup: RequestHandler = async (req: Request, res: Response) => {
   try {
 
     const user: any = await User.create({
@@ -48,7 +48,7 @@ export const signup = async (req: Request, res: Response) => {
 };
 
 // update por PUT a /api/usuarios/mondoID
-export const updateUsuario = async (req: Request, res: Response) => {
+export const updateUsuario: RequestHandler = async (req: Request, res: Response) => {
   try {
     const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -66,7 +66,7 @@ export const updateUsuario = async (req: Request, res: Response) => {
   }
 };
 //delete por DELETE a /api/usuarios/mongoID
-export const deleteUsuario = async (req: Request, res: Response) => {
+export const deleteUsuario: RequestHandler = async (req: Request, res: Response) => {
   try {
     const deletedUser = await User.findByIdAndDelete(req.params.id, {
       projection: { password: 0 },
@@ -81,7 +81,7 @@ export const deleteUsuario = async (req: Request, res: Response) => {
 };
 
 // Se busca el username único,se comprueba su password y se le envía un token de 1 día
-export const signin = async (req: Request, res: Response) => {
+export const signin: RequestHandler = async (req: Request, res: Response) => {
 
  try {
 
