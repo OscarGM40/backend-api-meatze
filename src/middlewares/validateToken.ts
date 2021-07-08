@@ -23,10 +23,8 @@ const isValidToken: RequestHandler = (req: Request | any, res, next) => {
  
      next();
     } catch (error) {
-      // console.log("cualquier cosa")
-      // console.log(req.headers["authorization"])
-    
-    return res.status(500).json({ error: error.message });
+       // console.log(req.headers["authorization"])
+       return res.status(500).json({ error: error.message });
 
   }
 };

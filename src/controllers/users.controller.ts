@@ -1,5 +1,4 @@
-import { RequestHandler, Response, Request } from "express";
-import { IUser } from "../models/Users.models";
+import { Response, Request } from "express";
 import mongoose from "mongoose";
 import User from "../models/Users.models";
 import jwt from 'jsonwebtoken';
@@ -40,11 +39,6 @@ export const signup = async (req: Request, res: Response) => {
       ...req.body,
       _id: new mongoose.Types.ObjectId(),
     });
-
-   /*  const { _id, userName, email, tipo, password } = user;
-    const user2 = { userName, email, tipo, _id, password };
-    delete user2.password; 
-    res.status(201).json(user2); */
 
     res.status(201).json(user);
     
@@ -100,14 +94,14 @@ export const signin = async (req: Request, res: Response) => {
 
   if(userFound) {
      const passwordValid = await userFound.comparePassword(password,userFound.password);
-    // console.log(userFound); sigue siendo igual
+
      if(passwordValid) {
-     //se puede montar el payload con lo que se quiera,al decodificar se devolverá lo mismo
-      const token = jwt.sign({id:userFound.id,email:userFound.email,tipo:userFound.tipo},sistema.jwtSECRET,{
-        expiresIn:86400
-      })
-      // console.log(token);
-      res.status(200).json({ok: true,token:token})
+       //se puede montar el payload con lo que se quiera,al decodificar se devolverá ese payload
+       const token = jwt.sign({id:userFound.id,email:userFound.email,tipo:userFound.tipo},sistema.jwtSECRET,{
+         expiresIn:86400
+       })
+       // console.log(token);
+       res.status(200).json({ok: true,token:token})
      }else{
        unauthorized(); //si no coinciden las passwords proporcionada y almacenada
      }
@@ -119,5 +113,5 @@ export const signin = async (req: Request, res: Response) => {
   res.status(500).json({ message: `Error: ${error.message}` });
  }
 
-}//fin signin
+}
 

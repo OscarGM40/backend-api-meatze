@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import {mongoDB} from '../config/config';
+import { mongoDB } from '../config/config';
 
 // 'mongodb://username:password@host:port/database?options...
 const dbOptions = {
