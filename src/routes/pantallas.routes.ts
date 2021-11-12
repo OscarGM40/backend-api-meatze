@@ -6,15 +6,15 @@ import { isValidRole } from '../middlewares/validateRole';
 
 /*Cuando se llama a un archivo se puede traer sin desestructurar solo la que este exportada por default */
 
-router.get('/pantallas', isValidToken, pantallasController.getPantallas);
-router.get('/pantallas/:id', isValidToken, pantallasController.getPantalla);
-router.post('/pantallas', isValidToken, isValidRole, pantallasController.createPantalla);
-router.put('/pantallas/:id', isValidToken, pantallasController.updatePantalla);
-router.delete('/pantallas/:id', isValidToken,  isValidRole, pantallasController.deletePantalla);
+router.get('/pantallas',  pantallasController.getPantallas);
+router.get('/pantallas/:id',  pantallasController.getPantalla);
+router.post('/pantallas',  isValidRole, pantallasController.createPantalla);
+router.put('/pantallas/:id',  pantallasController.updatePantalla);
+router.delete('/pantallas/:id',   isValidRole, pantallasController.deletePantalla);
 
 // rutas especiales
-router.put('/pantallas/insertarlista/:id', isValidToken, pantallasController.insertarLista);
-router.put('/pantallas/eliminarlista/:id', isValidToken, pantallasController.eliminarLista);
+router.put('/pantallas/insertarlista/:id',  pantallasController.insertarLista);
+router.put('/pantallas/eliminarlista/:id',  pantallasController.eliminarLista);
 
 
 export default router;
